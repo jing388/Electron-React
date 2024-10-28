@@ -12,13 +12,23 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 let win;
 function createWindow() {
   win = new BrowserWindow({
+    width: 1400,
+    // Set the width to 1600
+    height: 950,
+    // Set the height to 1000
+    center: true,
+    // Center the window on the screen
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      color: "#EAF1FF",
+      symbolColor: "#0F2043"
+    },
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs")
     }
   });
   win.removeMenu();
-  win.maximize();
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });

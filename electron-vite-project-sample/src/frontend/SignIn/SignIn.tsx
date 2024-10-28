@@ -18,11 +18,6 @@ const SignIn = () => {
 
   return (
 <div className='container-whole'>
-    <div className='circle-container'>
-    <div className='circle1'></div>
-    <div className='circle2'></div>
-    <div className='circle3'></div>
-  </div>
     <div className="signin-container">
      
       <h1>CaseMaster</h1>

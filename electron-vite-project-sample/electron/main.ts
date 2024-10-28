@@ -28,15 +28,24 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
-   
+    width: 1400,          // Set the width to 1600
+    height: 950,         // Set the height to 1000
+    center: true,         // Center the window on the screen
+
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#EAF1FF',
+      symbolColor: '#0F2043'
+    },
+
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
   })
 
-  win.removeMenu();
-  win.maximize();
+  win.removeMenu(); // Remove the menu
+
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
@@ -45,7 +54,6 @@ function createWindow() {
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
   } else {
-    // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 }
