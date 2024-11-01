@@ -1,0 +1,173 @@
+body, .container-whole {
+    background-color: rgba(246, 249, 255);
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    height: 100vh;
+    margin: 0;
+}
+
+h1{
+    font-size: 56px;
+}
+
+.signin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+   
+}
+
+.profileSetUp p{
+    font-size: 30px;
+    margin-top: 0;
+    color: #9AA2B4;
+    margin-bottom: 0;
+}
+
+.circleNumber{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid #0f2043;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    margin-right: 5px;
+}
+
+.numberOne{
+    display: flex;
+    align-items: center;
+    font-family: Inter;
+}
+
+.imageHolder{
+    height: 150px;
+    width: 150px;
+    border-radius: 10px;
+    border: 1px solid #0f2043;
+    margin-left: 2rem;
+    background-size: contain;
+}
+
+.numberTwo{
+    display: flex;
+    align-items: center;
+    align-items: flex-start;
+}
+
+.uploadImage{
+    border: 1px solid #517FD3;
+    background-color: rgba(81, 127, 211, 0.3);
+    border-radius: 10px;
+    color: #517FD3;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+   
+}
+
+.uploadImage:focus{
+    outline: auto;
+}
+
+.buttonGroup{
+    display: flex;
+    flex-direction: column;
+   align-items: flex-start;
+    justify-content: left;
+    margin: 0;
+    margin-top: 2rem;
+    margin-left: 1rem;
+}
+.buttonGroup p {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: .8rem;
+}
+.buttonGroup button {
+    margin-bottom: 10px;
+}
+
+.infoTextfields{
+   
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 1rem;
+    
+}
+.infoTextfields input {
+    margin-bottom: .2rem;
+    border-radius: 10px;
+    width: 15rem;
+    height: 1.8rem;
+    border: 1px solid #517FD3;
+
+}
+
+.infoTextfields input:focus {
+    border: 1px solid #517FD3;
+    background-color: rgba(81, 127, 211, 0.2);
+    outline: none;
+}
+
+.requiredInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2.3rem;
+    margin-top: .4rem;
+}
+.requiredInfo label {
+    margin-bottom: .8rem;
+}
+
+.nextButton {
+    border: 1px solid #0F2043;
+    border-radius: 10px;
+    color: #0F2043;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: auto; 
+    margin-right: .5rem;
+}
+
+.backButton{
+    display: flex;
+    align-items: center;    
+    justify-content: center; 
+    width: 50px;             
+    height: 50px;
+    border-radius: 50%;      
+    border: 1px solid #0F2043;
+    background-color: transparent;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+.backButton:focus {
+    outline: auto;
+  
+}
+
+.backButton-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 5rem;
+    margin-left: 3rem;
+    color: #0f2043;
+}
+
+

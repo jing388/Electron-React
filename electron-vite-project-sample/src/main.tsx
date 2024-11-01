@@ -1,17 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import SignIn from './frontend/SignIn/SignIn.tsx'
-
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import AppRouter from './AppRouter'; // Import your new router component
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <SignIn />
+    <AppRouter /> {/* Use the AppRouter here */}
   </React.StrictMode>,
-)
+);
 
 // Use contextBridge
 window.ipcRenderer.on('main-process-message', (_event, message) => {
-  console.log(message)
-})
+  console.log(message);
+});
