@@ -100,6 +100,7 @@ h1{
     flex-direction: column;
     align-items: flex-start;
     margin-left: 1rem;
+    margin-bottom: 20px;
     
 }
 .infoTextfields input {
@@ -137,7 +138,7 @@ h1{
     justify-content: center;
     display: flex;
     margin-left: auto; 
-    margin-right: .5rem;
+    margin-right: .1rem;
 }
 
 .backButton{

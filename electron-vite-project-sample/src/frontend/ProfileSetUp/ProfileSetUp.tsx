@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './ProfileSetUp.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
@@ -6,9 +6,19 @@ import { useNavigate } from 'react-router-dom';
 const ProfileSetUp = () => {
 
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadImage = () =>{
+    fileInputRef.current?.click();
+
+  };
   
   const handleBack = () => {
    navigate('/');
+  };
+
+  const handleNext = () => {
+    navigate('/profile-setup2');
   };
 
   return (
@@ -35,7 +45,7 @@ const ProfileSetUp = () => {
         <div className='numberTwo'>
           <div className='imageHolder'>Attach Image</div>
             <div className='buttonGroup'>
-               <button className='uploadImage'>Upload Image</button>
+               <button className='uploadImage' onClick={handleUploadImage}>Upload Image</button>
                <p>PNG or JPG files up to 5 mb</p>
                <p>Rcommended size is 256 x 256 px</p>
             </div> 
@@ -58,7 +68,7 @@ const ProfileSetUp = () => {
           </div> 
         </div>
 
-        <button className='nextButton'>Next</button>
+        <button className='nextButton' onClick={handleNext}>Next</button>
 
      </div>
     </div>
