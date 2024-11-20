@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react';
-import './EnterPIN.css';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import './ProfileSetUpCSS/EnterPIN.css';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
 
 interface ProfileModalProps {
   profile: { id: number; name: string; role: string; image: string; email: string; phone: string; };
@@ -23,8 +21,8 @@ const EnterPIN: React.FC<ProfileModalProps> = ({ profile, onClose }) => {
   const [pinValues, setPinValues] = useState(['', '', '', '']);
   const [showPin, setShowPin] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const [currentView, setCurrentView] = useState<'enter' | 'forgot' | 'confirm' | 'new-password-section' | 'success'>('enter');
-  const [recoveryMethod, setRecoveryMethod] = useState<'email' | 'sms'>('email');
+  const [currentView, setCurrentView] = useState<'default' | 'email' | 'phone' | 'forgot-pin-verification-method' | 'new-password-section' | 'email-method'| 'phone-method' | 'success'>('default');
+  const [errorBorder, setErrorBorder] = useState(false);
 
   const temporaryPin = ['1', '2', '3', '4'];
 
@@ -45,102 +43,156 @@ const EnterPIN: React.FC<ProfileModalProps> = ({ profile, onClose }) => {
 
     if (index === 3) {
       if (newPinValues.every((value, i) => value === temporaryPin[i])) {
-        onClose();
-        navigate('/choose-profile'); 
+        setCurrentView('email');
       } else {
         setErrorMessage('Incorrect PIN. Please try again.');
+        setErrorBorder(true);
         setPinValues(['', '', '', '']);
+
         inputRefs.forEach(ref => {
           if (ref.current) {
             ref.current.value = ''; 
           }
         });
+
+        setTimeout(() => {
+          setErrorBorder(false);
+          setErrorMessage('');
+        }, 500);
       }
+      inputRefs[index].current?.blur(); 
     }
   };
+  const backtToProfile = () => {
+    navigate('/choose-profile');
+  }
 
-  const toggleVisibility = () => {
-    setShowPin((prevShowPin) => !prevShowPin);
+  const handleForgotPinClick = () => {
+    setCurrentView('forgot-pin-verification-method');
   };
 
-  const openForgotPin = () => {
-    setCurrentView('forgot');
-  };
-
-  const goToConfirm = () => {
-    setCurrentView('confirm');
-  };
-
-
-  const goToNewPassword = () => {
+  const handleNewPIN = () => {
     setCurrentView('new-password-section');
   };
-
-  const goToSuccess = () => {
+  const handleSuccess= () => {
     setCurrentView('success');
   };
 
-  const goToProfiles = () => {
-    onClose();
-    navigate('/choose-profile'); 
-  };
-
-
-  const handleRecoveryMethodChange = (method: 'email' | 'sms') => {
-    setRecoveryMethod(method);
+  const handleVerificationMethod = () => {
+    const selectedMethod = document.querySelector('input[name="verification-method"]:checked')?.id;
+    if (selectedMethod === 'email-verification') {
+      setCurrentView('email-method');
+    } else if (selectedMethod === 'phone-verification') {
+      setCurrentView('phone-method');
+    }
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button className="close-button" onClick={onClose}><CloseIcon /></button>
-        
-
-        {currentView === 'forgot' ? (
-          <div className="forgot-pin-section">
-            <div className="profile-modal-icon" style={{ backgroundImage: `url(${profile.image})` }}></div>
+          {currentView !== 'success' && (
+            <button className="close-button" onClick={onClose}>
+               <CloseIcon />
+           </button>
+           )}
+        {(currentView === 'default' || currentView === 'forgot-pin-verification-method') && (
+          <div className='profile-name'>
+            <div
+              className="profile-modal-icon"
+              style={{ backgroundImage: `url(${profile.image})` }}
+            ></div>
             <p className='staff-name'>{profile.name}</p>
-            <h2>Forgot your PIN?</h2>
-            <p className='secondary-text'>Choose how you want to recover your account.</p>
-            <div className="radio-group">
-              <label>
-                <input type='radio' name='sendCode' value='email' checked= {recoveryMethod === 'email'} onChange={()=> handleRecoveryMethodChange('email')}/>
-                  Send code via email <strong>{profile.email}</strong>
-              </label>
-              <label>
-                <input type='radio' name='sendCode' value='sms' checked= {recoveryMethod === 'sms'} onChange={()=> handleRecoveryMethodChange('sms')}/>
-                  Send code through text <strong>{profile.phone}</strong>
-              </label>
-              </div>
-              <div className='confirm-button-div'>
-              <button onClick={goToConfirm} className='button3'>Continue</button> 
-              </div>
-          </div>
-        ) : currentView === 'confirm' ? (
-          <div className="confirm-pin-section">
-            <h2>Enter security code</h2>
-            {recoveryMethod === 'email' ? (
-              <p>Please check your email (<strong>{profile.email}</strong>)</p>
+            {currentView === 'forgot-pin-verification-method' ? (
+              <>
+                <h2>Forgot your PIN?</h2>
+                <p>Choose how you want to recover your account</p>
+              </>
             ) : (
-              <p>Please check your SMS (<strong>{profile.phone}</strong>)</p>
+              <h2>Enter your PIN</h2>
             )}
-            <p>for a message with your code.</p>
-            <p>Your code is 6 numbers long.</p>
-            <div className="get-code">
-              <input type='tel' className='recovery-code-input'></input>
+          </div>
+        )}
+
+        {(currentView === 'email' || currentView === 'phone') ? (
+          <div className="2-steps-verify">
+            <div className="enter-pin-secondary-text-container">
+              <h2>2-step verification</h2>
+              <p className="secondary-text">
+                {currentView === 'email' ? 'An email' : 'A SMS'} with a 6-digit verification code
+              </p>
+              <p className="secondary-text">
+                was just sent to <strong>{currentView === 'email' ? '(******@gmail.com)' : '(0909090909)'}</strong>
+              </p>
             </div>
-            <div className='resend-code-div'>
-              <p>Didn't get code? <strong className='resend-code'>Resend Code</strong></p>
+            <input type="text" className="input-verification-code" />
+            <div className="verification-method-container-container">
+              <div className="verification-method">
+                <p>Resend Code</p>
+                <p
+                  style={{ cursor: 'pointer', color: '#517FD3' }}
+                  onClick={() => setCurrentView(currentView === 'email' ? 'phone' : 'email')}
+                >
+                  Verify {currentView === 'email' ? 'phone' : 'email'} instead
+                </p>
+              </div>
+              <button className="continue-button">Continue</button>
             </div>
-            <div className='confirm-button-div'>
-            <button onClick={goToNewPassword} className='button3'>Continue</button>
+          </div>
+        ) : (currentView === 'email-method' || currentView === 'phone-method') ? (
+          <div className="2-steps-verify">
+            <div className="enter-pin-secondary-text-container">
+              <h2>2-step verification</h2>
+              <p className="secondary-text">
+                {currentView === 'email-method' ? 'An email' : 'A SMS'} with a 6-digit verification code
+              </p>
+              <p className="secondary-text">
+                was just sent to <strong>{currentView === 'email-method' ? '(******@gmail.com)' : '(0909090909)'}</strong>
+              </p>
+            </div>
+            <input type="text" className="input-verification-code" />
+            <div className="verification-method-container-container">
+              <div className="verification-method">
+                <p>Resend Code</p>
+                <p
+                  style={{ cursor: 'pointer', color: '#517FD3' }}
+                  onClick={() => setCurrentView(currentView === 'email-method' ? 'phone-method' : 'email-method')}
+                >
+                  Verify {currentView === 'email-method' ? 'phone' : 'email'} instead
+                </p>
+              </div>
+              <button className="continue-button" onClick={handleNewPIN}>Continue</button>
+            </div>
+          </div>
+        ) : currentView === 'forgot-pin-verification-method' ? (
+          <div>
+            <div className="verification-method-options"> 
+              <div className="radio-button">
+                <input
+                  type="radio"
+                  id="email-verification"
+                  name="verification-method"
+                />
+                <label htmlFor="email-verification">Send code via email (******@gmail.com)</label>
+              </div>
+
+              <div className="radio-button">
+                <input
+                  type="radio"
+                  id="phone-verification"
+                  name="verification-method"
+                />
+                <label htmlFor="phone-verification">Send code via phone (0909090909)</label>
+              </div>
+              <button className='continue-button' onClick={handleVerificationMethod}>Confirm</button>
             </div>
           </div>
         ) : currentView === 'new-password-section' ? (
           <div className="confirm-pin-section">
+            <div className='set-new-pin'>
             <h2>Set a New PIN</h2>
-            <p>Avoid using easy to guess PIN such as 1234, 1111</p>
-            <p>or your birthdate.</p>
+            <p>Avoid using easy to guess PIN such as 1234,</p>
+            <p> 1111 or your birthdate.</p>
+            </div>
             <div className="code-input-field">
               <div>
                   <label htmlFor='new-password' className='label-left'>New PIN</label>
@@ -151,44 +203,43 @@ const EnterPIN: React.FC<ProfileModalProps> = ({ profile, onClose }) => {
                   <input type='password' className='retype-password' name='retype-pass' id='retype-new-password'></input>
               </div>
             </div>
-            <div className='confirm-button-div'>
-            <button onClick={goToSuccess} className='button3'>Submit</button>
+            <div className='new-pin-section-button'>
+            <button className='continue-button' onClick={handleSuccess}>Submit</button>
             </div>
           </div>
         ) : currentView === 'success' ? (
-          <div className="confirm-pin-section">
-            <ThumbUpOffAltIcon style={{fontSize:'60px'}} className='like-icon'></ThumbUpOffAltIcon>
-            <h2>Success!</h2>
-            <p>Your profile PIN has been</p>
-            <p>successfully changed.</p>
-            <div className="code-input-field">
-              
+          <div className="success-pin-section">
+            <GppGoodOutlinedIcon style={{ fontSize: '60px', marginTop:'40px'}}/>
+            <div className='primary-text-success'>
+            <h2 >Your PIN has been</h2>
+            <h2>reset successfully!</h2>
             </div>
-            <div className='confirm-button-div'>
-            <button onClick={goToProfiles} className='go-back-to-profile-button'>Go back to Profile</button>
+            <div className='secondary-text-success'>
+            <p>PIN successfully changed</p>
+            <p>Go back to Select Profile to sign in</p>
             </div>
+            <button className='back-to-profile' onClick={backtToProfile}>Back to select profile</button>
           </div>
         ) : (
           <div className="enter-pin-section">
-            <h2>Hey there!</h2>
-            <p className='secondary-text'>Enter PIN to access this account!</p>
             <div className="CodeTextfields">
               {inputRefs.map((ref, index) => (
                 <input
                   key={index}
                   ref={ref}
-                  type={showPin ? "password" : "tel"}
+                  type={showPin ? 'password' : 'tel'}
                   maxLength={1}
-                  className={`PINTextfield ${pinValues[index] ? 'filled' : ''}`}
+                  className={`PINTextfield ${pinValues[index] ? 'filled' : ''} ${errorMessage ? 'error' : ''}`}
                   onChange={(e) => handleInputChange(e, index)}
                 />
               ))}
-              <button onClick={toggleVisibility} className="visibilityToggle">
-                {showPin ? <VisibilityOffOutlinedIcon /> : <VisibilityOutlinedIcon />}
-              </button>
             </div>
-            <p>Forgot PIN? <strong onClick={openForgotPin} className='show-forgotPIN'>Click here for help</strong></p>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <div className="resend-code">
+              <p onClick={handleForgotPinClick}>
+                Forgot PIN? <span style={{ color: ' #5e7e6f' }}>Click here</span>
+              </p>
+            </div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
           </div>
         )}
       </div>

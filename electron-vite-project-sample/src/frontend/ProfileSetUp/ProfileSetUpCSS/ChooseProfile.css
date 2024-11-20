@@ -1,0 +1,151 @@
+body, .profile-container{
+    background-color: rgba(246, 249, 255);
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    height: 100vh;
+    text-align: center;
+}
+.profile-card-wrapper h2{
+    font-size: 2.6rem;
+    margin-bottom: 0;
+}
+.choose-profile-card{
+    width: 170px;
+    height: 170px;
+    border: 1px solid #517FD3;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+.choose-profile-card:hover{
+    background-color: rgba(81, 127, 211, 0.3);
+}
+
+.profile-info{
+    margin: 0;
+}
+.profile-info p{
+    margin: 0;
+}
+.profile-info h4{
+    margin: 0;
+}
+
+.profile-icon {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: none;
+    background-size: cover;
+    background-position: center;
+}
+.profile-card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   cursor: pointer;
+
+}
+
+.prompt {
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.blurred {
+    filter: blur(1px);
+    transition: filter 0.3s ease;
+  }
+  
+  .logout-text{
+    margin-top: 3.5rem;
+    color: rgba(255, 0, 0, 0.945);
+    cursor: pointer;
+  }
+  .button-container{
+    margin-top:  3.7rem;
+  }
+ .add-profile-card {
+    cursor: pointer;
+
+ }
+ .add-icon {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px solid #3A5F9B;
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+    color: #3A5F9B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+  }
+  .add-profile-card:hover{
+    background-color: rgba(81, 127, 211, 0.3);
+  }
+    .add-profile-card{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 170px;
+        height: 170px;
+        border: 1px solid #3A5F9B;
+        border-radius: 20px;
+        border-style: dotted;
+    }
+  .button1{
+    border:1px solid #517FD3;
+    color: #3A5F9B;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 1rem;
+  }
+  .button2{
+    background-color:  #517FD3;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+   
+  }
+  .backButton{
+    display: flex;
+    align-items: center;    
+    justify-content: center; 
+    width: 50px;             
+    height: 50px;
+    border-radius: 50%;      
+    border: 1px solid #0F2043;
+    background-color: transparent;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+.backButton:focus {
+    outline: auto;
+  
+}
+
+.backButton-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 5rem;
+    margin-left: 3rem;
+    color: #0f2043;
+}
+ 
+  
+  
+  
+  
+
